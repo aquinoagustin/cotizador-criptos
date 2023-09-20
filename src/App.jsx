@@ -1,3 +1,4 @@
+import Formulario from './components/Formulario';
 import styled from '@emotion/styled';
 import ImagenCripto from './img/imagen-criptos.png'
 
@@ -47,7 +48,7 @@ function App() {
         <Imagen src={ImagenCripto} alt='Imagenes Cripto'/>
         <div>
         <Heading>Cotiza Criptomonedas al instante</Heading>
-
+        <Formulario/>
         </div>
       </Contenedor>
     </>
