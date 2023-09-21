@@ -29,7 +29,8 @@ export default function Formulario(){
     ];
 
 
-    const [moneda,SelectMonedas] = useSelectMonedas('elige tu moneda',monedas);
+    const [moneda,SelectMonedas] = useSelectMonedas('Elige tu moneda',monedas);
+    const [cripto,SelectCriptos] = useSelectMonedas('Elige tu Cripto',criptos);
 
     useEffect(()=>{
         const consultarAPI = async() => {
@@ -37,13 +38,11 @@ export default function Formulario(){
             const respuesta = await fetch(url);
             const resultado = await respuesta.json();
             const arrayCriptos = resultado.Data.map(cripto => {
-               
                const objeto ={
                 id:cripto.CoinInfo.Name,
                 nombre:cripto.CoinInfo.FullName
                }        
                return objeto;
-
             })
             setCriptos(arrayCriptos);
         }
@@ -54,6 +53,7 @@ export default function Formulario(){
     return(
         <form>
             <SelectMonedas/>
+            <SelectCriptos/>
             <InputSubmit type="submit" value='Calcular'/>
         </form>
     )
