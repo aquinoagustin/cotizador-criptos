@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import Error from './Error';
 import styled from '@emotion/styled';
 import useSelectMonedas from '../hooks/useSelectMonedas';
 const InputSubmit = styled.input`
@@ -18,8 +19,7 @@ const InputSubmit = styled.input`
         cursor: pointer;
     }
 `
-export default function Formulario(){
-    const [criptos,setCriptos] = useState([]);
+export default function Formulario({setMonedas}){
 
     const monedas = [
         {id:'USD',nombre:'Dolar de Estados Unidos'},
@@ -27,10 +27,29 @@ export default function Formulario(){
         {id:'EUR',nombre:'Euro'},
         {id:'GBP',nombre:'Libra Esterlina'}
     ];
+    
 
-
+    const [criptos,setCriptos] = useState([]);
+    const [error,setError] = useState(false);
     const [moneda,SelectMonedas] = useSelectMonedas('Elige tu moneda',monedas);
-    const [cripto,SelectCriptos] = useSelectMonedas('Elige tu Cripto',criptos);
+    const [criptomoneda,SelectCriptos] = useSelectMonedas('Elige tu criptomoneda',criptos);
+
+
+
+
+
+    const handleSubmit = e =>{
+        e.preventDefault();
+        if([moneda,criptomoneda].includes('')){
+            setError(true);
+            return
+        }
+        setError(false);
+        setMonedas({
+            moneda,
+            criptomoneda
+        })
+    }
 
     useEffect(()=>{
         const consultarAPI = async() => {
@@ -51,10 +70,13 @@ export default function Formulario(){
 
 
     return(
-        <form>
+        <>
+        {error && <Error><p>Todos los campos son obligatorios</p></Error>}
+        <form onSubmit={handleSubmit}>
             <SelectMonedas/>
             <SelectCriptos/>
             <InputSubmit type="submit" value='Calcular'/>
         </form>
+        </>
     )
 }
